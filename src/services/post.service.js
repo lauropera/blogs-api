@@ -79,9 +79,24 @@ const editBlogPost = async (userName, postId, postInformations) => {
   return allowedUser;
 };
 
+const deleteBlogPost = async (userName, id) => {
+  const validPost = await getBlogPostById(id);
+  if (validPost.type) {
+    return { type: 'NOT_FOUND', message: 'Post does not exist' };
+  }
+
+  const userId = await getUserIdByName(userName);
+  const allowedUser = await isUserAllowed(userId, id);
+  if (allowedUser.type) return allowedUser;
+
+  await BlogPost.destroy({ where: { id } });
+  return { type: null, message: '' };
+};
+
 module.exports = {
   createBlogPost,
   getAllBlogPosts,
   getBlogPostById,
   editBlogPost,
+  deleteBlogPost,
 };
