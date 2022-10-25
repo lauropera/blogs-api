@@ -36,8 +36,14 @@ const getUserById = async (id) => {
   return { type: 'NOT_FOUND', message: 'User does not exist' };
 };
 
+const getUserIdByName = async (displayName) => {
+  const { id } = await User.findOne({ where: { displayName } });
+  return id;
+};
+
 module.exports = {
   createNewUser,
   getAllUsers,
   getUserById,
+  getUserIdByName,
 };

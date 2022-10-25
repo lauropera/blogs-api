@@ -24,8 +24,25 @@ const newUserSchema = Joi.object({
   image: Joi.string(),
 });
 
+const newBlogPostSchema = Joi.object({
+  title: stringSchema,
+  content: stringSchema,
+  categoryIds: Joi.array().min(1).required(),
+}).messages({
+  'object.unknown': 'Some required fields are missing',
+});
+
+const blogPostSchema = Joi.object({
+  title: stringSchema,
+  content: stringSchema,
+}).messages({
+  'object.unknown': 'Some required fields are missing',
+});
+
 module.exports = {
   loginSchema,
   newUserSchema,
   nameSchema,
+  newBlogPostSchema,
+  blogPostSchema,
 };
