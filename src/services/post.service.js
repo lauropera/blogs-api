@@ -1,5 +1,6 @@
 const { validateBlogPost } = require('./validations/validationsInputValues');
 const { getAllCategories } = require('./categories.service');
+const { addPostCategoryRegistry } = require('./post_categories.service');
 const { BlogPost } = require('../models');
 const { getUserIdByName } = require('./user.service');
 
@@ -24,6 +25,7 @@ const createBlogPost = async (userDisplayName, postInformations) => {
       content,
       userId,
     });
+    await addPostCategoryRegistry(dataValues.id, categoryIds);
     return { type: null, message: dataValues };
   }
 
