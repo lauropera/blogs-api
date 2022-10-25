@@ -5,5 +5,6 @@ const router = express.Router();
 
 router.post('/', postController.createBlogPost);
 router.get('/', postController.getAllBlogPosts);
+router.get('/:id', postController.getBlogPostById);
 
 module.exports = router;
