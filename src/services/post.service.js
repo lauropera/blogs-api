@@ -10,6 +10,14 @@ const validateCategories = async (categoryIds) => {
   return categoryIds.every((id) => allCategoriesIds.includes(id));
 };
 
+const isUserAllowed = async (userId, postId) => {
+  const blogPost = await BlogPost.findByPk(postId);
+  if (blogPost && blogPost.dataValues.userId === userId) {
+    return { type: null, message: '' };
+  }
+  return { type: 'UNAUTHORIZED', message: 'Unauthorized user' };
+};
+
 const createBlogPost = async (userDisplayName, postInformations) => {
   const isNewPost = true;
   const error = validateBlogPost(postInformations, isNewPost);
@@ -54,8 +62,26 @@ const getBlogPostById = async (id) => {
   return { type: 'NOT_FOUND', message: 'Post does not exist' };
 };
 
+const editBlogPost = async (userName, postId, postInformations) => {
+  const error = validateBlogPost(postInformations);
+  if (error.type) return { type: error.type, message: error.message };
+
+  const userId = await getUserIdByName(userName);
+  const allowedUser = await isUserAllowed(userId, postId);
+
+  if (!allowedUser.type) {
+    const { title, content } = postInformations;
+    await BlogPost.update({ title, content }, { where: { userId } });
+    const { message } = await getBlogPostById(postId);
+    return { type: null, message };
+  }
+
+  return allowedUser;
+};
+
 module.exports = {
   createBlogPost,
   getAllBlogPosts,
   getBlogPostById,
+  editBlogPost,
 };
