@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.post('/', postController.createBlogPost);
 router.get('/', postController.getAllBlogPosts);
+router.get('/search', postController.getBlogPostsByQuery);
 router.get('/:id', postController.getBlogPostById);
 router.put('/:id', postController.editBlogPost);
 router.delete('/:id', postController.deleteBlogPost);
