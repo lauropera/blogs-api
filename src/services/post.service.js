@@ -1,7 +1,7 @@
 const { validateBlogPost } = require('./validations/validationsInputValues');
 const { getAllCategories } = require('./categories.service');
 const { addPostCategoryRegistry } = require('./post_categories.service');
-const { BlogPost } = require('../models');
+const { BlogPost, User, Category } = require('../models');
 const { getUserIdByName } = require('./user.service');
 
 const validateCategories = async (categoryIds) => {
@@ -33,6 +33,17 @@ const createBlogPost = async (userDisplayName, postInformations) => {
   return { type: 'INVALID_VALUES', message: errorMessage };
 };
 
+const getAllBlogPosts = async () => {
+  const blogPosts = await BlogPost.findAll({
+    include: [
+      { model: User, as: 'user', attributes: { exclude: 'password' } },
+      { model: Category, as: 'categories', through: { attributes: [] } },
+    ],
+  });
+  return blogPosts;
+};
+
 module.exports = {
   createBlogPost,
+  getAllBlogPosts,
 };
