@@ -41,9 +41,15 @@ const getUserIdByName = async (displayName) => {
   return id;
 };
 
+const deleteSelfUser = async (displayName) => {
+  const id = await getUserIdByName(displayName);
+  console.log(await User.destroy({ where: { id } }));
+};
+
 module.exports = {
   createNewUser,
   getAllUsers,
   getUserById,
   getUserIdByName,
+  deleteSelfUser,
 };
