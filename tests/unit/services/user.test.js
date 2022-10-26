@@ -30,7 +30,7 @@ describe('User service', function () {
   });
 
   describe('Creating a new user', function () {
-    it('Create a new user', async function () {
+    it('With success', async function () {
       sinon.stub(jwt, 'sign').resolves('token');
       sinon.stub(User, 'findOne').resolves(null);
       sinon.stub(User, 'create').resolves(newUser);
@@ -58,7 +58,7 @@ describe('User service', function () {
   });
 
   describe('Deleting an user', function () {
-    it('Deletes an user', async function () {
+    it('With success', async function () {
       sinon.stub(User, 'findOne').resolves(allUsers[0]);
       sinon.stub(User, 'destroy').resolves(1);
 
