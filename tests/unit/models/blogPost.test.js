@@ -12,6 +12,7 @@ const {
 } = require('sequelize-test-helpers');
 
 const BlogPostModel = require('../../../src/models/BlogPost');
+const UserModel = require('../../../src/models/User');
 
 describe('BlogPost model', () => {
   const BlogPost = BlogPostModel(sequelize, dataTypes);
@@ -32,7 +33,7 @@ describe('BlogPost model', () => {
   });
 
   context('Associations', () => {
-    const User = 'an user';
+    const User = UserModel(sequelize, dataTypes);
 
     before(() => {
       BlogPost.associate({ User });
