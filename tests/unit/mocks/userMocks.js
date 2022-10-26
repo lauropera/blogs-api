@@ -15,6 +15,13 @@ const allUsers = [
   },
 ];
 
+const newUser = {
+  displayName: 'Amelia Watson',
+  email: 'ameliawatson@hololive.com',
+  password: 'detective',
+};
+
 module.exports = {
   allUsers,
+  newUser,
 };

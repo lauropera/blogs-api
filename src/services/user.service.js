@@ -41,7 +41,9 @@ const getUserIdByName = async (displayName) => {
 };
 
 const deleteSelfUser = async (displayName) => {
-  await getUserIdByName(displayName);
+  const id = await getUserIdByName(displayName);
+  const result = await User.destroy({ where: { id } });
+  return result;
 };
 
 module.exports = {
