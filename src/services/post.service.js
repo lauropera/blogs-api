@@ -19,23 +19,23 @@ const isUserAllowed = async (userId, postId) => {
   return { type: 'UNAUTHORIZED', message: 'Unauthorized user' };
 };
 
-const createBlogPost = async (userDisplayName, postInformations) => {
+const createBlogPost = async (userDisplayName, post) => {
+  const userId = await getUserIdByName(userDisplayName);
+  const { dataValues } = await BlogPost.create({ userId, ...post });
+  await addPostCategoryRegistry(dataValues.id, post.categoryIds);
+  return dataValues;
+};
+
+const createBlogPostRegistry = async (userDisplayName, postInformations) => {
   const isNewPost = true;
   const error = validateBlogPost(postInformations, isNewPost);
   if (error.type) return { type: error.type, message: error.message };
 
-  const { title, content, categoryIds } = postInformations;
+  const { categoryIds } = postInformations;
   const doesCategoriesExists = await validateCategories(categoryIds);
-
   if (doesCategoriesExists) {
-    const userId = await getUserIdByName(userDisplayName);
-    const { dataValues } = await BlogPost.create({
-      title,
-      content,
-      userId,
-    });
-    await addPostCategoryRegistry(dataValues.id, categoryIds);
-    return { type: null, message: dataValues };
+    const blogPost = await createBlogPost(userDisplayName, postInformations);
+    return { type: null, message: blogPost };
   }
 
   const errorMessage = 'one or more "categoryIds" not found';
@@ -111,7 +111,7 @@ const getBlogPostsByQuery = async (query) => {
 };
 
 module.exports = {
-  createBlogPost,
+  createBlogPostRegistry,
   getAllBlogPosts,
   getBlogPostById,
   editBlogPost,
