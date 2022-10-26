@@ -33,7 +33,7 @@ describe('PostCategory model', () => {
       PostCategory.associate({ BlogPost, Category });
     });
 
-    it("defined a belongsToMany association with Category through PostCategory as 'categories'", () => {
+    it('defined a belongsToMany association with Category through PostCategory', () => {
       expect(BlogPost.belongsToMany).to.have.been.calledWith(Category, {
         as: 'categories',
         foreignKey: 'postId',
@@ -42,7 +42,7 @@ describe('PostCategory model', () => {
       });
     });
 
-    it("defined a belongsToMany association with BlogPost through PostCategory as 'blogPosts'", () => {
+    it('defined a belongsToMany association with BlogPost through PostCategory', () => {
       expect(Category.belongsToMany).to.have.been.calledWith(BlogPost, {
         as: 'blogPosts',
         foreignKey: 'categoryId',

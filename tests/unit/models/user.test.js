@@ -32,7 +32,7 @@ describe('User model', () => {
       User.associate({ BlogPost });
     });
 
-    it('defined a hasMany association with BlogPost as "blogPosts"', () => {
+    it('defined a hasMany association with BlogPost', () => {
       expect(User.hasMany).to.have.been.calledWith(BlogPost, {
         as: 'blogPosts',
         foreignKey: 'userId',

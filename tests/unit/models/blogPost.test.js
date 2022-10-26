@@ -39,7 +39,7 @@ describe('BlogPost model', () => {
       BlogPost.associate({ User });
     });
 
-    it('defined a belongsTo association with User as "user"', () => {
+    it('defined a belongsTo association with User', () => {
       expect(BlogPost.belongsTo).to.have.been.calledWith(User, {
         as: 'user',
         foreignKey: 'userId',
