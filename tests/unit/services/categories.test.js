@@ -29,7 +29,7 @@ describe('Categories service', function () {
 
     it('Fails if the name is invalid', async function () {
       const result = await categoriesService.createCategory('');
-      expect(result).to.equal('"name" is required');
+      expect(result.message).to.equal('"name" is required');
     });
   });
 });

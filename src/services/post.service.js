@@ -26,15 +26,15 @@ const createBlogPost = async (userDisplayName, post) => {
   return dataValues;
 };
 
-const createBlogPostRegistry = async (userDisplayName, postInformations) => {
+const createBlogPostRegistry = async (userDisplayName, post) => {
   const isNewPost = true;
-  const error = validateBlogPost(postInformations, isNewPost);
+  const error = validateBlogPost(post, isNewPost);
   if (error.type) return error;
 
-  const { categoryIds } = postInformations;
+  const { categoryIds } = post;
   const doesCategoriesExists = await validateCategories(categoryIds);
   if (doesCategoriesExists) {
-    const blogPost = await createBlogPost(userDisplayName, postInformations);
+    const blogPost = await createBlogPost(userDisplayName, post);
     return { type: null, message: blogPost };
   }
 
