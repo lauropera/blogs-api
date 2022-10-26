@@ -24,7 +24,7 @@
     "drop": "npx sequelize-cli db:drop",
     "seed": "npx sequelize-cli db:seed:all",
     "test": "mocha tests/**/*$NAME*.test.js --exit",
-    "test-coverage": "jest -i --verbose --forceExit --coverage",
+    "test-coverage": "nyc --all --include src/models --include src/services --include src/controllers mocha tests/unit/**/*.js --exit",
     "debug": "nodemon .",
     "lint": "eslint --no-inline-config --no-error-on-unmatched-pattern -c .eslintrc.json ."
   },
@@ -41,6 +41,7 @@
     "jest-each": "28.0.1",
     "mocha": "^10.1.0",
     "nodemon": "2.0.15",
+    "nyc": "^15.1.0",
     "sequelize-cli": "6.2.0",
     "sequelize-jest-helpers-trybe": "1.0.0",
     "sequelize-test-helpers": "^1.4.3",
