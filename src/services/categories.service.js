@@ -3,7 +3,7 @@ const { Category } = require('../models');
 
 const createCategory = async (name) => {
   const error = validateNewCategory(name);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
   const { id } = await Category.create({ name });
   return { type: null, message: id };

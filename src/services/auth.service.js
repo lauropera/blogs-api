@@ -10,7 +10,7 @@ const createToken = (userData) => {
 
 const validateLogin = async (credentials) => {
   const error = validateBody(credentials);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
   const { email, password } = credentials;
 

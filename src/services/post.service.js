@@ -29,7 +29,7 @@ const createBlogPost = async (userDisplayName, post) => {
 const createBlogPostRegistry = async (userDisplayName, postInformations) => {
   const isNewPost = true;
   const error = validateBlogPost(postInformations, isNewPost);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
   const { categoryIds } = postInformations;
   const doesCategoriesExists = await validateCategories(categoryIds);
@@ -65,7 +65,7 @@ const getBlogPostById = async (id) => {
 
 const editBlogPost = async (userName, postId, postInformations) => {
   const error = validateBlogPost(postInformations);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
   const userId = await getUserIdByName(userName);
   const allowedUser = await isUserAllowed(userId, postId);
