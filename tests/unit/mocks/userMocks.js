@@ -21,7 +21,13 @@ const newUser = {
   password: 'detective',
 };
 
+const loginMock = {
+  email: 'ameliawatson@hololive.com',
+  password: 'detective',
+};
+
 module.exports = {
   allUsers,
   newUser,
+  loginMock,
 };
