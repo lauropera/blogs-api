@@ -7,7 +7,7 @@ const { expect } = chai;
 const { authController } = require('../../../src/controllers');
 const { authService } = require('../../../src/services');
 
-describe.only('Auth controller', function () {
+describe('Auth controller', function () {
   afterEach(sinon.restore);
 
   it('User logs in successfully', async function () {
