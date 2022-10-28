@@ -10,10 +10,9 @@ const createToken = (data) => {
   return token;
 };
 
-const validateToken = (token) => {
+const validateToken = async (token) => {
   try {
-    const verify = jwt.verify(token, process.env.JWT_SECRET);
-    console.log(verify);
+    const verify = await jwt.verify(token, process.env.JWT_SECRET);
     return { type: null, message: verify.data };
   } catch (error) {
     console.error(error);

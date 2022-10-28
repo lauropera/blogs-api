@@ -7,21 +7,49 @@ const { User } = require('../../../src/models');
 const { newUser, loginMock } = require('../mocks/userMocks');
 
 describe('Auth service', function () {
-  it('Validate a login with success', async function () {
-    sinon.stub(jwt, 'sign').resolves('token');
-    sinon.stub(User, 'findOne').resolves({ dataValues: newUser });
+  afterEach(sinon.restore);
 
-    const result = await authService.validateLogin(loginMock);
-    const resolvedResult = await Promise.resolve(result.message);
-    expect(resolvedResult).to.equal('token');
+  describe('Logging in', function () {
+    it('Validate a login with success', async function () {
+      sinon.stub(jwt, 'sign').resolves('token');
+      sinon.stub(User, 'findOne').resolves({ dataValues: newUser });
+
+      const result = await authService.validateLogin(loginMock);
+      const resolvedResult = await Promise.resolve(result.message);
+      expect(resolvedResult).to.equal('token');
+    });
+
+    it('Fails if the login body is invalid', async function () {
+      const result = await authService.validateLogin({
+        ...loginMock,
+        email: '',
+      });
+      const resolvedResult = await Promise.resolve(result.message);
+      expect(resolvedResult).to.equal('Some required fields are missing');
+    });
+
+    it('Fails if some value is invalid', async function () {
+      const result = await authService.validateLogin({
+        ...loginMock,
+        email: 'invalidEmail',
+      });
+      const resolvedResult = await Promise.resolve(result.message);
+      expect(resolvedResult).to.equal('Invalid fields');
+    });
   });
 
-  // it('Validate a token with success', async function () {
-  //   sinon.stub(jwt, 'verify').resolves({ data: 'token' });
+  describe('Validating token', function () {
+    it('Validate a token with success', async function () {
+      sinon.stub(jwt, 'verify').resolves({ data: 'token' });
 
-  //   const result = authService.validateToken('token');
-  //   const resolvedResult = await Promise.resolve(result);
-  //   console.log('aqui', resolvedResult);
-  //   expect(result.message).to.equal('token');
-  // });
+      const result = authService.validateToken('token');
+      const resolvedResult = await Promise.resolve(result);
+      expect(resolvedResult.message).to.equal('token');
+    });
+
+    it('Fails if the token is not passed', async function () {
+      const result = await authService.validateToken(undefined);
+      expect(result.message).to.equal('Token not found');
+    });
+  });
 });

@@ -21,9 +21,9 @@ const validateLogin = async (credentials) => {
   return { type: null, message: token };
 };
 
-const validateToken = (token) => {
+const validateToken = async (token) => {
   if (!token) return { type: 'INVALID_TOKEN', message: 'Token not found' };
-  const result = jwtUtil.validateToken(token);
+  const result = await jwtUtil.validateToken(token);
   return result;
 };
 
