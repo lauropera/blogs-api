@@ -20,12 +20,12 @@ describe('Auth service', function () {
     });
 
     it('Fails if the login body is invalid', async function () {
-      const result = await authService.validateLogin({
-        ...loginMock,
-        email: '',
-      });
-      const resolvedResult = await Promise.resolve(result.message);
-      expect(resolvedResult).to.equal('Some required fields are missing');
+      const result = await authService.validateLogin({ password: '123456' });
+      const resolvedResult = await Promise.resolve(result);
+      expect(resolvedResult.type).to.equal('MISSING_FIELDS');
+      expect(resolvedResult.message).to.equal(
+        'Some required fields are missing'
+      );
     });
 
     it('Fails if some value is invalid', async function () {
@@ -33,8 +33,9 @@ describe('Auth service', function () {
         ...loginMock,
         email: 'invalidEmail',
       });
-      const resolvedResult = await Promise.resolve(result.message);
-      expect(resolvedResult).to.equal('Invalid fields');
+      const resolvedResult = await Promise.resolve(result);
+      expect(resolvedResult.type).to.equal('INVALID_FIELDS');
+      expect(resolvedResult.message).to.equal('Invalid fields');
     });
   });
 

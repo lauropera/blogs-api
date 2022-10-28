@@ -55,7 +55,6 @@ describe('Auth controller', function () {
   it('Fails if some information is missing', async function () {
     const req = {
       body: {
-        email: '',
         password: '123456',
       },
     };
