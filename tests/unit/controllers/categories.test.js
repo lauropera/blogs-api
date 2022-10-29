@@ -43,7 +43,7 @@ describe('Categories controller', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(categoriesService, 'createCategory')
-        .resolves({ type: 'INVALID_VALUES', message: '"name" is required' });
+        .resolves({ type: 400, message: '"name" is required' });
 
       await categoriesController.createCategory(req, res);
 

@@ -44,7 +44,7 @@ describe('Auth controller', function () {
     res.json = sinon.stub().returns();
     sinon
       .stub(authService, 'validateLogin')
-      .resolves({ type: 'INVALID_FIELDS', message: 'Invalid fields' });
+      .resolves({ type: 400, message: 'Invalid fields' });
 
     await authController.login(req, res);
 
@@ -63,7 +63,7 @@ describe('Auth controller', function () {
     res.status = sinon.stub().returns(res);
     res.json = sinon.stub().returns();
     sinon.stub(authService, 'validateLogin').resolves({
-      type: 'MISSING_FIELDS',
+      type: 400,
       message: 'Some required fields are missing',
     });
 

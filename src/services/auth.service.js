@@ -15,14 +15,14 @@ const validateLogin = async (credentials) => {
   const { email, password } = credentials;
 
   const user = await User.findOne({ where: { email, password } });
-  if (!user) return { type: 'INVALID_FIELDS', message: 'Invalid fields' };
+  if (!user) return { type: 400, message: 'Invalid fields' };
 
   const token = createToken(user.dataValues);
   return { type: null, message: token };
 };
 
 const validateToken = async (token) => {
-  if (!token) return { type: 'INVALID_TOKEN', message: 'Token not found' };
+  if (!token) return { type: 401, message: 'Token not found' };
   const result = await jwtUtil.validateToken(token);
   return result;
 };
