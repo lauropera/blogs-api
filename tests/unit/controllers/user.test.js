@@ -35,7 +35,7 @@ describe('User controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(userService, 'createNewUser').resolves({
-        type: 'ALREADY_EXISTS',
+        type: 409,
         message: 'User already registered',
       });
 
@@ -54,7 +54,7 @@ describe('User controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(userService, 'createNewUser').resolves({
-        type: 'INVALID_VALUES',
+        type: 400,
         message: '"email" must be a valid email',
       });
 
@@ -105,7 +105,7 @@ describe('User controller', function () {
       res.json = sinon.stub().returns();
       sinon
         .stub(userService, 'getUserById')
-        .resolves({ type: 'NOT_FOUND', message: 'User does not exist' });
+        .resolves({ type: 404, message: 'User does not exist' });
 
       await userController.getUserById(req, res);
 

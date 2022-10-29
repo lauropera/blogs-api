@@ -16,7 +16,7 @@ const isUserAllowed = async (userId, postId) => {
   if (blogPost && blogPost.dataValues.userId === userId) {
     return { type: null, message: '' };
   }
-  return { type: 'UNAUTHORIZED', message: 'Unauthorized user' };
+  return { type: 401, message: 'Unauthorized user' };
 };
 
 const createBlogPost = async (userDisplayName, post) => {
@@ -39,7 +39,7 @@ const createBlogPostRegistry = async (userDisplayName, post) => {
   }
 
   const errorMessage = 'one or more "categoryIds" not found';
-  return { type: 'INVALID_VALUES', message: errorMessage };
+  return { type: 400, message: errorMessage };
 };
 
 const getAllBlogPosts = async () => {
@@ -60,7 +60,7 @@ const getBlogPostById = async (id) => {
     ],
   });
   if (blogPost) return { type: null, message: blogPost };
-  return { type: 'NOT_FOUND', message: 'Post does not exist' };
+  return { type: 404, message: 'Post does not exist' };
 };
 
 const editBlogPost = async (userName, postId, postInformations) => {
@@ -83,7 +83,7 @@ const editBlogPost = async (userName, postId, postInformations) => {
 const deleteBlogPost = async (userName, id) => {
   const validPost = await getBlogPostById(id);
   if (validPost.type) {
-    return { type: 'NOT_FOUND', message: 'Post does not exist' };
+    return { type: 404, message: 'Post does not exist' };
   }
 
   const userId = await getUserIdByName(userName);
@@ -94,7 +94,7 @@ const deleteBlogPost = async (userName, id) => {
   return { type: null, message: '' };
 };
 
-const getBlogPostsByQuery = async (query) => {
+const getBlogPostsByQuery = async (query = '') => {
   const blogPosts = await BlogPost.findAll({
     where: {
       [Op.or]: [

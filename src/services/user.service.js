@@ -14,7 +14,7 @@ const createNewUser = async (informations) => {
   const { email } = informations;
   const emailValidation = await doesEmailAlreadyExists(email);
   if (emailValidation) {
-    return { type: 'ALREADY_EXISTS', message: 'User already registered' };
+    return { type: 409, message: 'User already registered' };
   }
 
   await User.create(informations);
@@ -32,7 +32,7 @@ const getUserById = async (id) => {
     attributes: { exclude: 'password' },
   });
   if (user) return { type: null, message: user };
-  return { type: 'NOT_FOUND', message: 'User does not exist' };
+  return { type: 404, message: 'User does not exist' };
 };
 
 const getUserIdByName = async (displayName) => {

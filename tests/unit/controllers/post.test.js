@@ -46,7 +46,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'createBlogPostRegistry').resolves({
-        type: 'INVALID_VALUES',
+        type: 400,
         message: 'Some required fields are missing',
       });
 
@@ -68,7 +68,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'createBlogPostRegistry').resolves({
-        type: 'INVALID_VALUES',
+        type: 400,
         message: 'one or more "categoryIds" not found',
       });
 
@@ -136,7 +136,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'getBlogPostById').resolves({
-        type: 'NOT_FOUND',
+        type: 404,
         message: 'Post does not exist',
       });
 
@@ -188,7 +188,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'editBlogPost').resolves({
-        type: 'INVALID_VALUES',
+        type: 400,
         message: 'Some required fields are missing',
       });
 
@@ -214,7 +214,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'editBlogPost').resolves({
-        type: 'UNAUTHORIZED',
+        type: 401,
         message: 'Unauthorized user',
       });
 
@@ -257,7 +257,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'deleteBlogPost').resolves({
-        type: 'NOT_FOUND',
+        type: 404,
         message: 'Post does not exist',
       });
 
@@ -279,7 +279,7 @@ describe('Post controller', function () {
       res.status = sinon.stub().returns(res);
       res.json = sinon.stub().returns();
       sinon.stub(postService, 'deleteBlogPost').resolves({
-        type: 'UNAUTHORIZED',
+        type: 401,
         message: 'Unauthorized user',
       });
 
