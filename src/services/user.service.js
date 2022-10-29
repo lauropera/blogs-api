@@ -7,12 +7,11 @@ const doesEmailAlreadyExists = async (email) => {
   return result;
 };
 
-const createNewUser = async ({ displayName, email, password, image }) => {
-  const informations = { displayName, email, password, image };
-
+const createNewUser = async (informations) => {
   const error = validateNewUser(informations);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
+  const { email } = informations;
   const emailValidation = await doesEmailAlreadyExists(email);
   if (emailValidation) {
     return { type: 'ALREADY_EXISTS', message: 'User already registered' };
@@ -43,7 +42,8 @@ const getUserIdByName = async (displayName) => {
 
 const deleteSelfUser = async (displayName) => {
   const id = await getUserIdByName(displayName);
-  console.log(await User.destroy({ where: { id } }));
+  const result = await User.destroy({ where: { id } });
+  return result;
 };
 
 module.exports = {

@@ -46,8 +46,7 @@ const deleteBlogPost = async (req, res) => {
 
 const getBlogPostsByQuery = async (req, res) => {
   const { q } = req.query;
-  const { type, message } = await postService.getBlogPostsByQuery(q);
-  if (type) return res.status(mapError(type)).json({ message });
+  const { message } = await postService.getBlogPostsByQuery(q);
   return res.status(200).json(message);
 };
 

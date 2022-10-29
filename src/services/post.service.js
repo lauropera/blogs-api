@@ -26,15 +26,15 @@ const createBlogPost = async (userDisplayName, post) => {
   return dataValues;
 };
 
-const createBlogPostRegistry = async (userDisplayName, postInformations) => {
+const createBlogPostRegistry = async (userDisplayName, post) => {
   const isNewPost = true;
-  const error = validateBlogPost(postInformations, isNewPost);
-  if (error.type) return { type: error.type, message: error.message };
+  const error = validateBlogPost(post, isNewPost);
+  if (error.type) return error;
 
-  const { categoryIds } = postInformations;
+  const { categoryIds } = post;
   const doesCategoriesExists = await validateCategories(categoryIds);
   if (doesCategoriesExists) {
-    const blogPost = await createBlogPost(userDisplayName, postInformations);
+    const blogPost = await createBlogPost(userDisplayName, post);
     return { type: null, message: blogPost };
   }
 
@@ -65,7 +65,7 @@ const getBlogPostById = async (id) => {
 
 const editBlogPost = async (userName, postId, postInformations) => {
   const error = validateBlogPost(postInformations);
-  if (error.type) return { type: error.type, message: error.message };
+  if (error.type) return error;
 
   const userId = await getUserIdByName(userName);
   const allowedUser = await isUserAllowed(userId, postId);
