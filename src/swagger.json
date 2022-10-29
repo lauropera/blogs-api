@@ -92,7 +92,7 @@
             "$ref": "#/components/schemas/UnauthorizedError"
           },
           "400": {
-            "description": "Campos inválidos",
+            "description": "Campos ou valores inválidos",
             "content": {
               "application/json": {
                 "schema": {
@@ -113,7 +113,7 @@
               }
             }
           },
-          "200": {
+          "201": {
             "description": "Usuário cadastrado com sucesso",
             "content": {
               "application/json": {
@@ -163,15 +163,15 @@
     },
     "/user/{id}": {
       "get": {
-        "summary": "Listar usuários pelo ID",
-        "description": "Essa rota é responsável por listar um usuário pelo seu ID",
+        "summary": "Buscar usuário pelo ID",
+        "description": "Essa rota é responsável por buscar um usuário pelo seu ID",
         "tags": ["User"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [
           {
             "name": "id",
             "in": "path",
-            "description": "Informações do usuário pelo ID",
+            "description": "Id do usuário para buscar",
             "required": true
           }
         ],
@@ -244,7 +244,7 @@
             "$ref": "#/components/schemas/UnauthorizedError"
           },
           "400": {
-            "description": "Campos inválidos",
+            "description": "Campos ou valores inválidos",
             "content": {
               "application/json": {
                 "schema": {
@@ -298,6 +298,247 @@
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/post": {
+      "post": {
+        "summary": "Cria um blog post",
+        "description": "Essa rota é responsável por criar um novo blog post",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewBlogPost"
+              },
+              "examples": {
+                "blogpost": {
+                  "value": {
+                    "title": "Título aleatório",
+                    "content": "Conteúdo aleatório",
+                    "categoryIds": ["1", "2"]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "400": {
+            "description": "Campos ou valores inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Blog post criado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/NewBlogPostResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar blog posts",
+        "description": "Essa rota é responsável por listar todos os blog posts",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "200": {
+            "description": "Blog post listados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlogPost"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/search": {
+      "get": {
+        "summary": "Buscar um blog post pelo seu título ou conteúdo",
+        "description": "Essa rota é responsável por buscar um ou mais blog posts pelo seu título ou conteúdo",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "description": "Título ou conteúdo para buscar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Blog post listados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/BlogPost"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "get": {
+        "summary": "Buscar blog post pelo ID",
+        "description": "Essa rota é responsável por buscar um blog post pelo seu ID",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do blog post para buscar",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "404": {
+            "description": "Blog post não existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Blog post listado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BlogPost"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "summary": "Editar um blog post",
+        "description": "Essa rota é responsável por editar um blog post pelo seu ID",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do blog post para editar",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/EditingBlogPost"
+              },
+              "examples": {
+                "editingPost": {
+                  "value": {
+                    "title": "Outro título aleatório",
+                    "content": "Outro conteúdo aleatório"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "400": {
+            "description": "Campos ou valores inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Blog post editado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/BlogPost"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um blog posts pelo ID",
+        "description": "Essa rota é responsável por deletar um blog post pelo seu ID",
+        "tags": ["Post"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "description": "ID do blog post para deletar",
+            "required": true
+          }
+        ],
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "404": {
+            "description": "Blog post não existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "204": {
+            "description": "Blog post deletado com sucesso"
           }
         }
       }
@@ -371,7 +612,7 @@
         }
       },
       "UnauthorizedError": {
-        "description": "Token de acesso é obrigatório ou está inválido"
+        "description": "Token de acesso não autorizado"
       },
       "NewCategory": {
         "type": "object",
@@ -388,6 +629,111 @@
             "type": "number"
           },
           "name": {
+            "type": "string"
+          }
+        }
+      },
+      "NewBlogPost": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "categoryIds": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "NewBlogPostResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "number"
+          },
+          "published": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          }
+        }
+      },
+      "BlogPost": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "number"
+          },
+          "published": {
+            "type": "string"
+          },
+          "updated": {
+            "type": "string"
+          },
+          "user": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number"
+              },
+              "displayName": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "image": {
+                "type": "string"
+              }
+            }
+          },
+          "categories": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      },
+      "EditingBlogPost": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "content": {
             "type": "string"
           }
         }

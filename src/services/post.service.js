@@ -94,7 +94,7 @@ const deleteBlogPost = async (userName, id) => {
   return { type: null, message: '' };
 };
 
-const getBlogPostsByQuery = async (query) => {
+const getBlogPostsByQuery = async (query = '') => {
   const blogPosts = await BlogPost.findAll({
     where: {
       [Op.or]: [
