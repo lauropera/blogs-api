@@ -1,6 +1,6 @@
 const express = require('express');
 
-const authMiddleware = require('../middlewares/auth.middleware');
+const { validateToken } = require('../middlewares/auth.middleware');
 const authRouter = require('./auth.router');
 const userRouter = require('./user.router');
 const categoriesRouter = require('./categories.router');
@@ -11,7 +11,7 @@ const routers = express.Router();
 routers.use('/login', authRouter);
 routers.use('/user', userRouter);
 
-routers.use('/categories', authMiddleware.validateToken, categoriesRouter);
-routers.use('/post', authMiddleware.validateToken, blogPostRouter);
+routers.use('/categories', validateToken, categoriesRouter);
+routers.use('/post', validateToken, blogPostRouter);
 
 module.exports = routers;
