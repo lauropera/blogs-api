@@ -30,13 +30,20 @@ describe('Auth service', function () {
 
     it('Fails if some value is invalid', async function () {
       const result = await authService.validateLogin({
-        ...loginMock,
-        email: 'invalidEmail',
+        email: 'a',
+        password: '123456',
       });
       const resolvedResult = await Promise.resolve(result);
       expect(resolvedResult.type).to.equal('INVALID_FIELDS');
-      expect(resolvedResult.message).to.equal('Invalid fields');
+      expect(resolvedResult.message).to.equal('"email" must be a valid email');
     });
+
+    it('Fails if the user has not been found', async function () {
+      sinon.stub(User, 'findOne').resolves(undefined);
+      const result = await authService.validateLogin(loginMock);
+      expect(result.type).to.equal('INVALID_FIELDS');
+      expect(result.message).to.equal('Invalid fields');
+    })
   });
 
   describe('Validating token', function () {
