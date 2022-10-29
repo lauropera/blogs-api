@@ -1,0 +1,59 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Blog",
+    "description": "Essa API trabalha com as principais funcionalidades de um blog. Nela você pode criar, atualizar, excluir e listar blog posts, categorias e usuários.",
+    "contact": {
+      "email": "lauropereirasr01@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost/3000/",
+      "description": "API de teste"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "summary": "Login",
+        "description": "Essa rota é responsável por fazer o login na API.",
+        "tags": ["Login"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              },
+              "examples": {
+                "Login": {
+                  "value": {
+                    "email": "lauro@email.com",
+                    "password": "123456"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "response": {}
+    }
+  },
+  "components": {
+    "schemas": {
+      "Login": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}
