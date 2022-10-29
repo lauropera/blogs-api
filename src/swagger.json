@@ -29,7 +29,7 @@
               "examples": {
                 "login": {
                   "value": {
-                    "email": "red.pkmn@gmail.com",
+                    "email": "red.pkmn@pokemail.com",
                     "password": "123456"
                   }
                 }
@@ -88,6 +88,9 @@
           }
         },
         "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
           "400": {
             "description": "Campos inválidos",
             "content": {
@@ -98,9 +101,6 @@
                 }
               }
             }
-          },
-          "401": {
-            "$ref": "#/components/schemas/UnauthorizedError"
           },
           "409": {
             "description": "Usuário já cadastrado",
@@ -216,6 +216,91 @@
           }
         }
       }
+    },
+    "/categories": {
+      "post": {
+        "summary": "Cadastra uma nova categoria",
+        "description": "Essa rota é responsável por cadastrar uma nova categoria.",
+        "tags": ["Categories"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewCategory"
+              },
+              "examples": {
+                "category": {
+                  "value": {
+                    "name": "Pokemon"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "400": {
+            "description": "Campos inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "201": {
+            "description": "Categoria cadastrada com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Category"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Listar categorias",
+        "description": "Essa rota é responsável por listar todas as categorias",
+        "tags": ["Categories"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "401": {
+            "description": "Token inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Categorias listadas com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Category"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
@@ -287,6 +372,25 @@
       },
       "UnauthorizedError": {
         "description": "Token de acesso é obrigatório ou está inválido"
+      },
+      "NewCategory": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          }
+        }
+      },
+      "Category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          }
+        }
       }
     },
     "securitySchemes": {
