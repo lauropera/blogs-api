@@ -131,13 +131,6 @@
         "description": "Essa rota é responsável por listar todos os usuários",
         "tags": ["User"],
         "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": "true"
-          }
-        ],
         "responses": {
           "401": {
             "description": "Token inválido",
@@ -175,11 +168,6 @@
         "tags": ["User"],
         "security": [{ "bearerAuth": [] }],
         "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": "true"
-          },
           {
             "name": "id",
             "in": "path",
@@ -219,13 +207,6 @@
         "description": "Deleta o usuário logado",
         "tags": ["User"],
         "security": [{ "bearerAuth": [] }],
-        "parameters": [
-          {
-            "in": "header",
-            "name": "Authorization",
-            "required": "true"
-          }
-        ],
         "responses": {
           "401": {
             "$ref": "#/components/schemas/UnauthorizedError"

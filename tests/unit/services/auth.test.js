@@ -40,21 +40,15 @@ describe('Auth service', function () {
       sinon.stub(User, 'findOne').resolves(undefined);
       const result = await authService.validateLogin(loginMock);
       expect(result.message).to.equal('Invalid fields');
-    })
+    });
   });
 
   describe('Validating token', function () {
     it('Validate a token with success', async function () {
-      sinon.stub(jwt, 'verify').resolves({ data: 'token' });
+      sinon.stub(jwt, 'verify').resolves({ data: 'OK' });
 
-      const result = authService.validateToken('token');
-      const resolvedResult = await Promise.resolve(result);
-      expect(resolvedResult.message).to.equal('token');
-    });
-
-    it('Fails if the token is not passed', async function () {
-      const result = await authService.validateToken(undefined);
-      expect(result.message).to.equal('Token not found');
+      const result = await authService.validateToken('token');
+      expect(result.message).to.equal('OK');
     });
   });
 });

@@ -22,7 +22,6 @@ const validateLogin = async (credentials) => {
 };
 
 const validateToken = async (token) => {
-  if (!token) return { type: 401, message: 'Token not found' };
   const result = await jwtUtil.validateToken(token);
   return result;
 };
