@@ -10,7 +10,7 @@
   },
   "servers": [
     {
-      "url": "http://localhost/3000/",
+      "url": "http://localhost:3000/",
       "description": "API de teste"
     }
   ],
@@ -27,24 +27,221 @@
                 "$ref": "#/components/schemas/Login"
               },
               "examples": {
-                "Login": {
+                "login": {
                   "value": {
-                    "email": "lauro@email.com",
+                    "email": "red.pkmn@gmail.com",
                     "password": "123456"
                   }
                 }
               }
             }
           }
+        },
+        "responses": {
+          "400": {
+            "description": "Login inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Login realizado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user": {
+      "post": {
+        "summary": "Cadastro de usuário",
+        "description": "Essa rota é responsável por cadastrar novos usuários, recebendo seu nome de exibição, email, senha e, opcionalmente, imagem de perfil.",
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/NewUser"
+              },
+              "examples": {
+                "user": {
+                  "value": {
+                    "displayName": "Blue PKMN",
+                    "email": "blue.pkmn@pokemail.com",
+                    "password": "123456",
+                    "image": "https://archives.bulbagarden.net/media/upload/d/db/FireRed_LeafGreen_Blue.png"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "400": {
+            "description": "Campos inválidos",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "409": {
+            "description": "Usuário já cadastrado",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Usuário cadastrado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/Token"
+                }
+              }
+            }
+          }
         }
       },
-      "response": {}
+      "get": {
+        "summary": "Listar usuários",
+        "description": "Essa rota é responsável por listar todos os usuários",
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": "true"
+          }
+        ],
+        "responses": {
+          "401": {
+            "description": "Token inválido",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "items": {
+                    "$ref": "#/components/schemas/ErrorMessage"
+                  }
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Usuários listados com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/User"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/{id}": {
+      "get": {
+        "summary": "Listar usuários pelo ID",
+        "description": "Essa rota é responsável por listar um usuário pelo seu ID",
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": "true"
+          },
+          {
+            "name": "id",
+            "in": "path",
+            "description": "Informações do usuário pelo ID",
+            "required": true
+          }
+        ],
+        "responses": {
+          "404": {
+            "description": "Usuário não existe",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/ErrorMessage"
+                }
+              }
+            }
+          },
+          "200": {
+            "description": "Usuário listado com sucesso",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "$ref": "#/components/schemas/User"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/user/me": {
+      "delete": {
+        "summary": "Deleta o usuário logado",
+        "description": "Deleta o usuário logado",
+        "tags": ["User"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "header",
+            "name": "Authorization",
+            "required": "true"
+          }
+        ],
+        "responses": {
+          "401": {
+            "$ref": "#/components/schemas/UnauthorizedError"
+          },
+          "204": {
+            "description": "Usuário deletado com sucesso"
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
       "Login": {
         "type": "object",
+        "required": ["email", "password"],
         "properties": {
           "email": {
             "type": "string"
@@ -53,6 +250,69 @@
             "type": "string"
           }
         }
+      },
+      "Token": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string"
+          }
+        }
+      },
+      "ErrorMessage": {
+        "type": "object",
+        "properties": {
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "NewUser": {
+        "type": "object",
+        "required": ["displayName", "email", "password"],
+        "properties": {
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "description": "Campo opcional"
+          }
+        }
+      },
+      "User": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "displayName": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "image": {
+            "type": "string",
+            "description": "Campo opcional"
+          }
+        }
+      },
+      "UnauthorizedError": {
+        "description": "Token de acesso é obrigatório ou está inválido"
+      }
+    },
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }
