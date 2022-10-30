@@ -1,4 +1,6 @@
-# 🎤 Blogs API
+# 💻 Blogs API
+
+![Preview do Projeto](./project-preview.png)
 
 ## 📡 Desenvolvimento
 
