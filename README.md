@@ -1,6 +1,6 @@
 # 💻 Blogs API
 
-![Preview do Projeto](./project-preview.png)
+![Preview do Projeto Blogs API](./project-preview.png)
 
 ## 📡 Desenvolvimento
 
