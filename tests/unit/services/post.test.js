@@ -54,7 +54,7 @@ describe('BlogPost service', function () {
 
       it('Show all blog posts if the query is empty', async function () {
         sinon.stub(BlogPost, 'findAll').resolves(allBlogPosts);
-        const result = await postService.getBlogPostsByQuery('');
+        const result = await postService.getBlogPostsByQuery();
         expect(result.message).to.deep.equal(allBlogPosts);
       });
 
