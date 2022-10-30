@@ -32,7 +32,7 @@ git clone git@github.com:lauropera/blogs-api.git
 
     npm install
 
-### 5 - Agora, execute os comandos para criar e popular o banco de dados:
+### 5 - Agora execute os comandos para criar e popular o banco de dados:
 
 Criando as tabelas
 
