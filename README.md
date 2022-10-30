@@ -6,8 +6,6 @@ Projeto desenvolvido na <a href="https://betrybe.com/" target="_blank">Trybe</a>
 
 Nesse projeto foi desenvolvido uma API RESTful utilizando a arquitetura MSC (Model-Service-Controller) de blog, onde é possivel criar, visualizar, deletar e atualizar posts, categorias e usuários! A conexão com o banco de dadas foi feita com o ORM Sequelize e a autenticação com Json Web Token.
 
-#
-
 ## 📚 Documentação
 
 <details>
