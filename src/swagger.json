@@ -2,7 +2,7 @@
   "openapi": "3.0.0",
   "info": {
     "title": "API de Blog",
-    "description": "Essa API trabalha com as principais funcionalidades de um blog. Nela você pode criar, atualizar, excluir e listar blog posts, categorias e usuários.",
+    "description": "Essa API trabalha com as principais funcionalidades de um blog. Nela você pode criar, atualizar, excluir e listar blog posts, categorias e usuários. A autenticação é feita com JWT (Json Web Token). Para acessar as rotas autenticadas, faça login ou crie um novo usuário para receber o token.",
     "contact": {
       "email": "lauropereirasr01@gmail.com"
     },
@@ -138,9 +138,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
+                  "$ref": "#/components/schemas/ErrorMessage"
                 }
               }
             }
@@ -279,9 +277,7 @@
               "application/json": {
                 "schema": {
                   "type": "object",
-                  "items": {
-                    "$ref": "#/components/schemas/ErrorMessage"
-                  }
+                  "$ref": "#/components/schemas/ErrorMessage"
                 }
               }
             }
