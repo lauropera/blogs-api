@@ -13,7 +13,7 @@ Decidi implementar testes unitários a parte, cobrindo um total de 100% das func
 ## 🚀 Instalação e execução
 
 <details>
-<summary>Instalação e execução com Docker</summary>
+<summary>Instalando e executando com Docker</summary>
 <br />
 
 Para rodar está aplicação é necessário ter **Git**, **Docker** e o **Docker Compose** instalados no seu computador. O Docker Compose precisa estar na versão **1.29** ou superior.
