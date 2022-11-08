@@ -10,7 +10,7 @@ Nesse projeto foi desenvolvido uma API RESTful utilizando a arquitetura MSC (Mod
 
 Decidi implementar testes unitários a parte, cobrindo um total de 100% das funcionalidades da API, para praticar e garantir que a aplicação funcione corretamente!
 
-## 📚 Documentação
+## 🚀 Instalação e execução
 
 <details>
 <summary>Instalação e execução com Docker</summary>
@@ -54,11 +54,13 @@ Para conferir a cobertura de testes execute o comando:
 
     npm run test-coverage
 
-### 7 - Acesse a documentação e faça requisições para o servidor aberto na porta 3000
+</details>
+<br />
+
+## 📚 Documentação
 
 Acesse a rota http://localhost:3000/docs para acessar a documentação e testar a API. Se preferir, utilize um cliente de requisições HTTP de sua preferência (Insomnia, Thunder Client, etc) para fazer as requisições.
 
-</details>
 <br />
 
 ## ⚙️ Tecnologias
